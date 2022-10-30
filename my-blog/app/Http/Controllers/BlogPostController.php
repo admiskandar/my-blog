@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlogPost;
 use Illuminate\Http\Request;
 
 class BlogPostController extends Controller
@@ -13,7 +14,8 @@ class BlogPostController extends Controller
      */
     public function index()
     {
-        //
+        $blogposts = BlogPost::get();
+        return view ('blog-post.index',["blogposts"=>$blogposts]);
     }
 
     /**
@@ -23,7 +25,7 @@ class BlogPostController extends Controller
      */
     public function create()
     {
-        //
+        return view ('blog-post.create');
     }
 
     /**
@@ -34,7 +36,15 @@ class BlogPostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        BlogPost::create(
+            [
+                "title" => $request->input('title'),
+                "body" => $request->input('body'),
+                "user_id" => 0,
+            ]
+        );
+
+        return redirect (route('blogpost.index'));
     }
 
     /**
@@ -45,7 +55,8 @@ class BlogPostController extends Controller
      */
     public function show($id)
     {
-        //
+        $blogpost = BlogPost::find($id);
+        return view ('blog-post.show',["blogpost"=>$blogpost]);
     }
 
     /**
@@ -56,7 +67,8 @@ class BlogPostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $blogpost = BlogPost::find($id);
+        return view ('blog-post.edit',["blogpost"=>$blogpost]);
     }
 
     /**
@@ -68,7 +80,7 @@ class BlogPostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // $blogpost = BlogPost::find($id);
     }
 
     /**
